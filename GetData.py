@@ -17,13 +17,44 @@ def old_data_raw():
     return dat, labels
 
 
-def every_contiguous_set(length):
+def test1_n(n):
     """
-    Returns all contiguous sets of size length in the original dataset
+    Gathers data from specified file in the Test1 folder
+    :param n:
+    :return:
+    """
+    dat = []
+    labels = []
+    with open("Test1/test"+str(n)+".csv", "r", newline="") as f:
+        reader = csv.reader(f)
+        next(reader)
+        for row in reader:
+            dat.append([float(row[6]), float(row[7])])
+            labels.append([float(row[8]), float(row[9])])
+
+    return dat, labels
+
+
+def test1_all():
+    """
+    Gathers data from all files in the Test1 folder
+    :return:
+    """
+    dat = []
+    labels = []
+    for i in range(1, 7):
+        datn, labeln = test1_n(i)
+        dat = dat + datn
+        labels = labels + labeln
+    return dat, labels
+
+
+def every_contiguous_set(length, dat, labels):
+    """
+    Returns all contiguous sets of size length in the given dataset
     :param length: length of the sets of data
     :return: ([[[bend1, stretch1], [bend2, stretch2], ...], [[bend1, stretch1], ...], ...], [[avg_angle1, avg_angle2], ...])
     """
-    dat, labels = old_data_raw()
     dat_sets = []
     label_sets = []
     for i in range(len(dat)-(length-1)):
