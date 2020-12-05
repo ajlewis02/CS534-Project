@@ -5,19 +5,23 @@ import pandas as pd
 
 
 dat, labels = GetData.test1_all()
-dat, labels = GetData.every_contiguous_set(2, dat, labels)
+dat, labels = GetData.every_contiguous_set(5, dat, labels)
 
-labels = [[m * 100 for m in n] for n in labels]
+labels = [[n[0] * 319.2715, n[1] * 139.36778] for n in labels]  # Convert to degrees
+
+# Normalize to -1 - 1 range
+dat = [[[m[0] / 133.078125, m[1] / 26.625] for m in n] for n in dat]
+labels = [[n[0] / 92, n[1] / 81] for n in labels]
 
 dat = numpy.asarray(dat)
 labels = numpy.asarray(labels)
 
-modelName = "LSTM_newdata_len2_contiguous_gen1"
+modelName = "LSTM_newdata_len5_contiguous_gen5"
 
 model = tf.keras.Sequential([
-    tf.keras.layers.Dense(2, input_shape=(2, 2)),
+    tf.keras.layers.Dense(2, input_shape=(5, 2), activation="tanh"),
     tf.keras.layers.LSTM(64),
-    tf.keras.layers.Dense(2)
+    tf.keras.layers.Dense(2, activation="tanh")
 ],
                             name=modelName)  # TODO: Make sure you actually build your model before trying to train it!
 model.summary()

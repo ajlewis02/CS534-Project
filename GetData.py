@@ -42,7 +42,7 @@ def test1_all():
     """
     dat = []
     labels = []
-    for i in range(1, 7):
+    for i in range(1, 10):
         datn, labeln = test1_n(i)
         dat = dat + datn
         labels = labels + labeln
