@@ -24,6 +24,8 @@ plt.plot([n[1] for n in labels_sets][:500], c="b")
 plt.plot([n[0] for n in guess][:500], c="lime")
 plt.plot([n[1] for n in guess][:500], c="c")
 
+print(model.evaluate(dat_sets, labels_sets))
+
 plt.legend(["Bend", "Stretch", "Angle 1", "Angle 2", "Predicted Angle 1", "Predicted Angle 2"])
 plt.title("Model " + model_name + " performance")
 plt.show()

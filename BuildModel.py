@@ -3,14 +3,16 @@ import numpy, GetData
 import matplotlib.pyplot as plt
 import pandas as pd
 
-dat, labels = GetData.every_contiguous_set(2)
+
+dat, labels = GetData.test1_all()
+dat, labels = GetData.every_contiguous_set(2, dat, labels)
+
+labels = [[m * 100 for m in n] for n in labels]
 
 dat = numpy.asarray(dat)
 labels = numpy.asarray(labels)
 
-print(dat[0])
-
-modelName = "LSTM_len2_contiguous_gen3"
+modelName = "LSTM_newdata_len2_contiguous_gen1"
 
 model = tf.keras.Sequential([
     tf.keras.layers.Dense(2, input_shape=(2, 2)),
