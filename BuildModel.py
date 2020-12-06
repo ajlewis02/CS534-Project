@@ -5,7 +5,7 @@ import pandas as pd
 
 
 dat, labels = GetData.test1_all()
-dat, labels = GetData.every_contiguous_set(5, dat, labels)
+dat, labels_sets = GetData.every_contiguous_set(20, dat, labels)
 
 labels = [[n[0] * 319.2715, n[1] * 139.36778] for n in labels]  # Convert to degrees
 
@@ -16,10 +16,11 @@ labels = [[n[0] / 92, n[1] / 81] for n in labels]
 dat = numpy.asarray(dat)
 labels = numpy.asarray(labels)
 
-modelName = "LSTM_newdata_len5_contiguous_gen5"
+modelName = "LSTM_newdata_len20_contiguous_gen14"
 
 model = tf.keras.Sequential([
-    tf.keras.layers.Dense(2, input_shape=(5, 2), activation="tanh"),
+    tf.keras.layers.Dense(2, input_shape=(20, 2), activation="tanh"),
+    tf.keras.layers.LSTM(64, return_sequences=True),
     tf.keras.layers.LSTM(64),
     tf.keras.layers.Dense(2, activation="tanh")
 ],
@@ -36,6 +37,8 @@ history = model.fit(dat, labels, epochs=60, verbose=0, validation_split=0.2)
 hist = pd.DataFrame(history.history)
 hist['epoch'] = history.epoch
 hist.tail()
+
+print(history.history["loss"][len(history.history["loss"])-1])
 
 plt.plot(history.history['loss'], label='loss')
 plt.plot(history.history['val_loss'], label='val_loss')
